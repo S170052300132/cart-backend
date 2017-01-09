@@ -20,7 +20,7 @@ public class UserDAOImpl implements UserDAO {
 	{
 		this.sessionFactory = sessionFactory;
 	}
-	@Override
+	
 	@Transactional
 		public List<User> list() {
 		// TODO Auto-generated method stub
@@ -29,13 +29,12 @@ public class UserDAOImpl implements UserDAO {
 		return query.list();
 		
 	}
-	@Override
+	
 	@Transactional
 	public User get(String id) {
 		// TODO Auto-generated method stub
 		return (User)sessionFactory.getCurrentSession().get(User.class,id);
 	}
-	@Override
 	@Transactional
 	public User validate(String id, String password) {
 		// TODO Auto-generated method stub
@@ -43,7 +42,7 @@ public class UserDAOImpl implements UserDAO {
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		return (User)query.uniqueResult();
 	}
-	@Override
+	
 	@Transactional
 	public boolean save(User user) {
 		// TODO Auto-generated method stub
@@ -55,7 +54,7 @@ public class UserDAOImpl implements UserDAO {
 		}
 		return true;
 	}
-	@Override
+	
 	@Transactional
 	public boolean update(User user) {
 		// TODO Auto-generated method stub
