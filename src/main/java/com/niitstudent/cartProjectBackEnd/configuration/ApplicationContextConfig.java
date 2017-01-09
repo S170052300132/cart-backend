@@ -21,7 +21,7 @@ import com.niitstudent.cartProjectBackEnd.domainobj.User;
 @ComponentScan("com.niitstudent.cartProjectBackEnd")
 @EnableTransactionManagement
 
-public class ApplicationContextConfiguration {
+public class ApplicationContextConfig {
 
 	@Bean(name = "dataSource")
 	public DataSource getH2DataSource() {
@@ -38,8 +38,6 @@ public class ApplicationContextConfiguration {
 		
 		return dataSource;
 	}
-
-	
 	private Properties getHibernateProperties() {
 		Properties properties = new Properties();
 		properties.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
