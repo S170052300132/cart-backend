@@ -18,7 +18,7 @@ public class TestUserDAO {
 	AnnotationConfigApplicationContext context; 
 	
 	public TestUserDAO()
-	{	context =new AnnotationConfigApplicationContext();
+	{	context = new AnnotationConfigApplicationContext();
 		context.scan("com.niitstudent.cartProjectBackEnd");
 		context.refresh();
 		userDAO = (UserDAO) context.getBean("userDAOImpl");

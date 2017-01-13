@@ -1,11 +1,12 @@
 package com.niitstudent.cartProjectBackEnd.daoimplement;
 
 import java.util.List;
-import javax.transaction.Transactional;
+
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.niitstudent.cartProjectBackEnd.dao.UserDAO;
 import com.niitstudent.cartProjectBackEnd.domainobj.User;
@@ -38,7 +39,7 @@ public class UserDAOImpl implements UserDAO {
 	@Transactional
 	public User validate(String id, String password) {
 		// TODO Auto-generated method stub
-		String hql ="from user where id='"+id+"' and password='"+password+"'";
+		String hql ="from User where id='"+id+"' and password='"+password+"'";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		return (User)query.uniqueResult();
 	}
