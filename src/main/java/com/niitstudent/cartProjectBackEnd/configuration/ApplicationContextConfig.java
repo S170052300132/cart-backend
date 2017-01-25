@@ -1,7 +1,9 @@
 package com.niitstudent.cartProjectBackEnd.configuration;
 
 import java.util.Properties;
+
 import javax.sql.DataSource;
+
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +14,7 @@ import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.niitstudent.cartProjectBackEnd.domainobj.Cart;
 import com.niitstudent.cartProjectBackEnd.domainobj.Category;
 import com.niitstudent.cartProjectBackEnd.domainobj.Product;
 import com.niitstudent.cartProjectBackEnd.domainobj.Supplier;
@@ -55,6 +58,7 @@ public class ApplicationContextConfig {
 		sessionBuilder.addAnnotatedClasses(Category.class);
 		sessionBuilder.addAnnotatedClasses(Supplier.class);
 		sessionBuilder.addAnnotatedClasses(Product.class);
+		sessionBuilder.addAnnotatedClasses(Cart.class);
 
 		return sessionBuilder.buildSessionFactory();
 	}

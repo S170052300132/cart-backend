@@ -11,8 +11,6 @@ public interface UserDAO {
 	
 	public User validate(String id,  String password);
 	
-	public boolean save(User user);
-	
-	public boolean update(User user);
-	
+	public void saveOrUpdate(User user);
+		
 }

@@ -45,23 +45,8 @@ public class UserDAOImpl implements UserDAO {
 	}
 	
 	@Transactional
-	public boolean save(User user) {
-		// TODO Auto-generated method stub
-		try {
-			sessionFactory.getCurrentSession().save(user);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			return false;
-		}
-		return true;
+	public void saveOrUpdate(User user) {
+		sessionFactory.getCurrentSession().saveOrUpdate(user);
 	}
 	
-	@Transactional
-	public boolean update(User user) {
-		// TODO Auto-generated method stub
-		 
-	sessionFactory.getCurrentSession().update(user);
-	return false;
-	}
-
 }
