@@ -9,24 +9,56 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate4.HibernateTransactionManager;
-import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import com.niitstudent.cartProjectBackEnd.domainobj.Cart;
-import com.niitstudent.cartProjectBackEnd.domainobj.Category;
+import com.niitstudent.cartProjectBackEnd.dao.AccountDAO;
+import com.niitstudent.cartProjectBackEnd.dao.OrderDAO;
+import com.niitstudent.cartProjectBackEnd.dao.ProductDAO;
+import com.niitstudent.cartProjectBackEnd.daoimplement.AccountDAOImpl;
+import com.niitstudent.cartProjectBackEnd.daoimplement.OrderDAOImpl;
+import com.niitstudent.cartProjectBackEnd.daoimplement.ProductDAOImpl;
+import com.niitstudent.cartProjectBackEnd.domainobj.Account;
+import com.niitstudent.cartProjectBackEnd.domainobj.Order;
+import com.niitstudent.cartProjectBackEnd.domainobj.OrderDetail;
 import com.niitstudent.cartProjectBackEnd.domainobj.Product;
-import com.niitstudent.cartProjectBackEnd.domainobj.Supplier;
-import com.niitstudent.cartProjectBackEnd.domainobj.User;
-
+ 
 @Configuration
-@ComponentScan("com.niitstudent.cartProjectBackEnd")
+@ComponentScan("com.niitstudent.cartProjectBackEnd.*")
 @EnableTransactionManagement
+// Load to Environment.
 public class ApplicationContextConfig {
-
-	@Bean(name = "dataSource")
-	public DataSource getH2DataSource() {
+ 
+    // The Environment class serves as the property holder
+    // and stores all the properties loaded by the @PropertySource
+    
+    @Bean
+    public ResourceBundleMessageSource messageSource() {
+        ResourceBundleMessageSource rb = new ResourceBundleMessageSource();
+        // Load property in message/validator.properties
+        rb.setBasenames(new String[] { "messages/validator" });
+        return rb;
+    }
+ 
+   
+     
+    // Config for Upload.
+    @Bean(name = "multipartResolver")
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
+         
+        // Set Max Size...
+        // commonsMultipartResolver.setMaxUploadSize(...);
+         
+        return commonsMultipartResolver;
+    }
+ 
+    @Bean(name = "dataSource")
+    public DataSource getH2DataSource() {
 
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
@@ -37,10 +69,10 @@ public class ApplicationContextConfig {
 		dataSource.setUsername("sa");
 		dataSource.setPassword("sa");
 
-		return dataSource;
-	}
-
-	private Properties getHibernateProperties() {
+        return dataSource;
+    }
+ 
+    private Properties getHibernateProperties() {
 		Properties properties = new Properties();
 		properties.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
 		properties.put("hibernate.show_sql", "true");
@@ -54,11 +86,10 @@ public class ApplicationContextConfig {
 		LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(
 				dataSource);
 		sessionBuilder.addProperties(getHibernateProperties());
-		sessionBuilder.addAnnotatedClass(User.class);
-		sessionBuilder.addAnnotatedClasses(Category.class);
-		sessionBuilder.addAnnotatedClasses(Supplier.class);
+		sessionBuilder.addAnnotatedClass(Account.class);
+		sessionBuilder.addAnnotatedClasses(Order.class);
+		sessionBuilder.addAnnotatedClasses(OrderDetail.class);
 		sessionBuilder.addAnnotatedClasses(Product.class);
-		sessionBuilder.addAnnotatedClasses(Cart.class);
 
 		return sessionBuilder.buildSessionFactory();
 	}
@@ -72,5 +103,27 @@ public class ApplicationContextConfig {
 
 		return transactionManager;
 	}
+	
 
+
+    @Bean(name = "accountDAO")
+    public AccountDAO getApplicantDAO() {
+        return new AccountDAOImpl();
+    }
+ 
+    @Bean(name = "productDAO")
+    public ProductDAO getProductDAO() {
+        return new ProductDAOImpl();
+    }
+ 
+    @Bean(name = "orderDAO")
+    public OrderDAO getOrderDAO() {
+        return new OrderDAOImpl();
+    }
+     
+    @Bean(name = "accountDAO")
+    public AccountDAO getAccountDAO()  {
+        return new AccountDAOImpl();
+    }
+ 
 }
